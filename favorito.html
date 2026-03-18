@@ -1,19 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Favoritos - PELISHUB</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Favoritos - PELISHUB</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="index.html" class="nav-logo">
+          <img src="Logo.png" alt="PelisHub" />
+        </a>
+        <div class="nav-links" id="nav-links">
+          <a href="index.html">Inicio</a>
+          <a href="detalles.html">Filtro</a>
+          <a href="favorito.html" class="active">Favoritos</a>
+        </div>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
 
-  <h1>PELISHUB - Favoritos</h1>
+    <main>
+      <div class="container">
+        <div class="page-header">
+          <h1>Mis <span>Favoritos</span></h1>
+          <p>Lista personal de series y películas que has guardado.</p>
+        </div>
 
-  <nav>
-    <a href="index.html">Inicio</a> |
-    <a href="detalles.html">Filtro</a>
-  </nav>
+        <div class="seccion-header">
+          <h2>Lista de <span>Favoritos</span></h2>
+          <button class="btn-peligro" id="btn-limpiar">Limpiar todo</button>
+        </div>
 
-  <p>Aquí verás tus películas favoritas.</p>
+        <div class="favoritos-grid" id="contenedor-favoritos"></div>
 
-</body>
+        <div class="estado-vacio" id="estado-vacio">
+          <div class="icono">&#9825;</div>
+          <h3>Sin favoritos</h3>
+          <p>Aún no has agregado nada a tu sesión de favoritos</p>
+          <a href="index.html" class="btn-primario">Explorar series</a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 <span>PelisHub</span> · Datos proporcionados por TVMaze API</p>
+    </footer>
+  </body>
 </html>
