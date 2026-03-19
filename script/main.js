@@ -1,6 +1,4 @@
 
-// PELISHUB — main.js
-// Solo arranca la aplicación
 
 import { state } from './state.js';
 import { obtenerShows } from './service.js';
@@ -10,7 +8,6 @@ import { configurarBuscador } from './service.js';
 import { configurarFiltros, renderizarPaginacion, paginarShows } from './ui.js';
 
 window.addEventListener('load', async () => {
-  // Iniciar elementos visuales (intro, hamburguesa)
   iniciarUI();
 
   const itemsGuardados = obtenerItemsPorPagina();
