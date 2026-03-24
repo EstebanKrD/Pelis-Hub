@@ -1,11 +1,18 @@
 import { state } from "./state.js";
-import { guardarFavorito, eliminarFavorito, esFavorito } from "./storage.js";
+import {
+  guardarFavorito,
+  eliminarFavorito,
+  esFavorito,
+  obtenerFavoritos,
+  limpiarFavoritos,
+} from "./persistence.js";
 
 export function iniciarUI() {
   iniciarIntro();
   iniciarHamburguesa();
 }
 
+// Animación de intro y aparición de página principal
 function iniciarIntro() {
   const intro = document.getElementById("intro");
   const pagina = document.getElementById("pagina-principal");
@@ -21,6 +28,7 @@ function iniciarIntro() {
   }, 3200);
 }
 
+// Menú hamburguesa para móvil
 function iniciarHamburguesa() {
   const navToggle = document.getElementById("nav-toggle");
   const navLinks = document.getElementById("nav-links");
@@ -32,6 +40,8 @@ function iniciarHamburguesa() {
     navLinks.classList.toggle("abierto");
   });
 }
+
+// ── TARJETAS ───────────────────────────────────────────────────
 
 export function renderizarTarjetas(shows) {
   const contenedor = document.getElementById("contenedor-cards");
@@ -62,26 +72,25 @@ export function renderizarTarjetas(shows) {
     btn.addEventListener("click", (e) => {
       const id = parseInt(e.target.dataset.id);
       const show = shows.find((s) => s.id === id);
-      toggleFavorito(show, e.target);
+      _toggleFavorito(show, e.target);
     });
   });
 }
 
-// ── CREAR TARJETA ────────────────────────────────────────────
+// Genera el HTML de una tarjeta
 function crearTarjeta(show) {
-  const imagen = show.image?.medium || "";
-  const nombre = show.name || "Sin nombre";
+  const imagen  = show.image?.medium || "";
+  const nombre  = show.name || "Sin nombre";
   const generos = show.genres?.slice(0, 2).join(" · ") || "Sin género";
-  const rating = show.rating?.average || "N/A";
+  const rating  = show.rating?.average || "N/A";
   const favorito = esFavorito(show.id);
 
   return `
     <div class="card">
       <div class="card-imagen">
-        ${
-          imagen
-            ? `<img src="${imagen}" alt="${nombre}" loading="lazy">`
-            : `<div class="sin-imagen">🎬</div>`
+        ${imagen
+          ? `<img src="${imagen}" alt="${nombre}" loading="lazy">`
+          : `<div class="sin-imagen">🎬</div>`
         }
         ${rating !== "N/A" ? `<span class="card-rating">★ ${rating}</span>` : ""}
       </div>
@@ -101,7 +110,8 @@ function crearTarjeta(show) {
   `;
 }
 
-function toggleFavorito(show, btn) {
+// Alterna favorito y actualiza el botón
+function _toggleFavorito(show, btn) {
   if (esFavorito(show.id)) {
     eliminarFavorito(show.id);
     btn.textContent = "♡";
@@ -111,6 +121,8 @@ function toggleFavorito(show, btn) {
   }
 }
 
+// ── PAGINACIÓN ─────────────────────────────────────────────────
+
 export function renderizarPaginacion() {
   const infoPagina = document.getElementById("info-pagina");
   const btnsPagina = document.getElementById("btns-pagina");
@@ -118,7 +130,7 @@ export function renderizarPaginacion() {
   if (!infoPagina || !btnsPagina) return;
 
   const totalPaginas = Math.ceil(
-    state.showsFiltrados.length / state.itemsPorPagina,
+    state.showsFiltrados.length / state.itemsPorPagina
   );
   const paginaActual = state.paginaActual + 1;
 
@@ -164,6 +176,7 @@ export function paginarShows() {
   return state.showsFiltrados.slice(inicio, fin);
 }
 
+// Genera botones numerados con elipsis
 function generarNumerosPagina(paginaActual, totalPaginas) {
   let html = "";
 
@@ -182,15 +195,16 @@ function generarNumerosPagina(paginaActual, totalPaginas) {
   return html;
 }
 
+// ── FAVORITOS ──────────────────────────────────────────────────
+
 export function renderizarFavoritos() {
-  const contenedor = document.getElementById("contenedor-favoritos");
+  const contenedor  = document.getElementById("contenedor-favoritos");
   const estadoVacio = document.getElementById("estado-vacio");
 
   if (!contenedor) return;
 
-  const favoritos = JSON.parse(
-    localStorage.getItem("pelishub-favoritos") || "[]",
-  );
+  // Usa persistence.js en lugar de localStorage directamente
+  const favoritos = obtenerFavoritos();
 
   if (favoritos.length === 0) {
     contenedor.innerHTML = "";
@@ -200,15 +214,12 @@ export function renderizarFavoritos() {
 
   if (estadoVacio) estadoVacio.style.display = "none";
 
-  contenedor.innerHTML = favoritos
-    .map(
-      (show) => `
+  contenedor.innerHTML = favoritos.map((show) => `
     <div class="card">
       <div class="card-imagen">
-        ${
-          show.image?.medium
-            ? `<img src="${show.image.medium}" alt="${show.name}" loading="lazy">`
-            : `<div class="sin-imagen">🎬</div>`
+        ${show.image?.medium
+          ? `<img src="${show.image.medium}" alt="${show.name}" loading="lazy">`
+          : `<div class="sin-imagen">🎬</div>`
         }
       </div>
       <div class="card-body">
@@ -222,11 +233,9 @@ export function renderizarFavoritos() {
         <button class="btn-peligro btn-eliminar-fav" data-id="${show.id}">Eliminar</button>
       </div>
     </div>
-  `,
-    )
-    .join("");
+  `).join("");
 
-  // Evento eliminar favorito
+  // Eliminar favorito individual
   contenedor.querySelectorAll(".btn-eliminar-fav").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       eliminarFavorito(parseInt(e.target.dataset.id));
@@ -234,11 +243,11 @@ export function renderizarFavoritos() {
     });
   });
 
-  // Evento limpiar todo
+  // Limpiar todos los favoritos
   const btnLimpiar = document.getElementById("btn-limpiar");
   if (btnLimpiar) {
     btnLimpiar.addEventListener("click", () => {
-      localStorage.removeItem("pelishub-favoritos");
+      limpiarFavoritos();
       renderizarFavoritos();
     });
   }
