@@ -17,15 +17,26 @@ function iniciarIntro() {
   const intro = document.getElementById("intro");
   const pagina = document.getElementById("pagina-principal");
 
-  if (!intro || !pagina) return;
+  // Si no hay intro o página, no bloquea
+  if (!intro || !pagina) {
+    if (pagina) pagina.classList.add("visible");
+    return;
+  }
 
   setTimeout(() => {
     intro.classList.add("saliendo");
+
     setTimeout(() => {
       intro.style.display = "none";
       pagina.classList.add("visible");
     }, 650);
   }, 3200);
+
+  // Failsafe (por si algo falla)
+  setTimeout(() => {
+    pagina.classList.add("visible");
+    if (intro) intro.style.display = "none";
+  }, 5000);
 }
 
 // Menú hamburguesa para móvil
