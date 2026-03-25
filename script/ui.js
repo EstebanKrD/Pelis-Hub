@@ -263,3 +263,6 @@ export function renderizarFavoritos() {
     });
   }
 }
+export function iniciarPaginaFavoritos() {
+  renderizarFavoritos();
+}
