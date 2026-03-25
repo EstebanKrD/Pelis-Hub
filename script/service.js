@@ -13,16 +13,14 @@ export function configurarBuscador() {
       state.showsFiltrados = state.todosLosShows;
     } else {
       const res = await fetch(
-        https://api.tvmaze.com/search/shows?q=${valor}
+        `https://api.tvmaze.com/search/shows?q=${valor}`
       );
       const data = await res.json();
 
-      // ⚠️ IMPORTANTE: la API devuelve { show: {...} }
       state.showsFiltrados = data.map((item) => item.show);
     }
 
     state.paginaActual = 0;
-
     renderizarTarjetas(paginarShows());
     renderizarPaginacion();
   });
