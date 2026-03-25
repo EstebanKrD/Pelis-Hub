@@ -1,3 +1,4 @@
+// ui.js
 import { state } from "./state.js";
 import {
   guardarFavorito,
@@ -5,45 +6,37 @@ import {
   esFavorito,
   obtenerFavoritos,
   limpiarFavoritos,
-} from "./persistance.js";
+} from "./storage.js";
 
+// ── INICIO ────────────────────────────────────────
 export function iniciarUI() {
   iniciarIntro();
   iniciarHamburguesa();
+  configurarFiltros();
+  configurarSelectorItemsPorPagina();
 }
 
-// Animación de intro y aparición de página principal
+// ── INTRO ────────────────────────────────────────
 function iniciarIntro() {
   const intro = document.getElementById("intro");
   const pagina = document.getElementById("pagina-principal");
+  if (!intro || !pagina) return;
 
-  // Si no hay intro o página, no bloquea
-  if (!intro || !pagina) {
-    if (pagina) pagina.classList.add("visible");
-    return;
-  }
+  intro.style.display = "flex";
 
   setTimeout(() => {
     intro.classList.add("saliendo");
-
     setTimeout(() => {
       intro.style.display = "none";
       pagina.classList.add("visible");
     }, 650);
-  }, 3200);
-
-  // Failsafe (por si algo falla)
-  setTimeout(() => {
-    pagina.classList.add("visible");
-    if (intro) intro.style.display = "none";
-  }, 5000);
+  }, 2200);
 }
 
-// Menú hamburguesa para móvil
+// ── MENÚ HAMBURGUESA ─────────────────────────────
 function iniciarHamburguesa() {
   const navToggle = document.getElementById("nav-toggle");
   const navLinks = document.getElementById("nav-links");
-
   if (!navToggle || !navLinks) return;
 
   navToggle.addEventListener("click", () => {
@@ -52,11 +45,27 @@ function iniciarHamburguesa() {
   });
 }
 
-// ── TARJETAS ───────────────────────────────────────────────────
+// ── SELECTOR ITEMS POR PÁGINA ─────────────────────
+function configurarSelectorItemsPorPagina() {
+  const select = document.getElementById("items-por-pagina");
+  if (!select) return;
 
+  select.value = String(state.itemsPorPagina);
+
+  select.addEventListener("change", (e) => {
+    state.itemsPorPagina = parseInt(e.target.value);
+    state.paginaActual = 0;
+    try {
+      localStorage.setItem("pelishub-items-por-pagina", String(state.itemsPorPagina));
+    } catch {}
+    renderizarTarjetas(paginarShows());
+    renderizarPaginacion();
+  });
+}
+
+// ── TARJETAS ─────────────────────────────────────
 export function renderizarTarjetas(shows) {
   const contenedor = document.getElementById("contenedor-cards");
-
   if (!contenedor) return;
 
   if (shows.length === 0) {
@@ -83,12 +92,11 @@ export function renderizarTarjetas(shows) {
     btn.addEventListener("click", (e) => {
       const id = parseInt(e.target.dataset.id);
       const show = shows.find((s) => s.id === id);
-      _toggleFavorito(show, e.target);
+      if (show) _toggleFavorito(show, e.target);
     });
   });
 }
 
-// Genera el HTML de una tarjeta
 function crearTarjeta(show) {
   const imagen  = show.image?.medium || "";
   const nombre  = show.name || "Sin nombre";
@@ -121,7 +129,6 @@ function crearTarjeta(show) {
   `;
 }
 
-// Alterna favorito y actualiza el botón
 function _toggleFavorito(show, btn) {
   if (esFavorito(show.id)) {
     eliminarFavorito(show.id);
@@ -130,19 +137,17 @@ function _toggleFavorito(show, btn) {
     guardarFavorito(show);
     btn.textContent = "♥";
   }
+  renderizarFavoritos();
+  renderizarTarjetas(paginarShows());
 }
 
-// ── PAGINACIÓN ─────────────────────────────────────────────────
-
+// ── PAGINACIÓN ─────────────────────────────────
 export function renderizarPaginacion() {
   const infoPagina = document.getElementById("info-pagina");
   const btnsPagina = document.getElementById("btns-pagina");
-
   if (!infoPagina || !btnsPagina) return;
 
-  const totalPaginas = Math.ceil(
-    state.showsFiltrados.length / state.itemsPorPagina
-  );
+  const totalPaginas = Math.ceil(state.showsFiltrados.length / state.itemsPorPagina);
   const paginaActual = state.paginaActual + 1;
 
   infoPagina.textContent = `Página ${paginaActual} de ${totalPaginas}`;
@@ -187,34 +192,24 @@ export function paginarShows() {
   return state.showsFiltrados.slice(inicio, fin);
 }
 
-// Genera botones numerados con elipsis
 function generarNumerosPagina(paginaActual, totalPaginas) {
   let html = "";
-
   for (let i = 1; i <= totalPaginas; i++) {
-    if (
-      i === 1 ||
-      i === totalPaginas ||
-      (i >= paginaActual - 1 && i <= paginaActual + 1)
-    ) {
+    if (i === 1 || i === totalPaginas || (i >= paginaActual - 1 && i <= paginaActual + 1)) {
       html += `<button class="btn-pagina numero ${i === paginaActual ? "active" : ""}" data-pagina="${i - 1}">${i}</button>`;
     } else if (i === paginaActual - 2 || i === paginaActual + 2) {
       html += `<button class="btn-pagina" disabled>...</button>`;
     }
   }
-
   return html;
 }
 
-// ── FAVORITOS ──────────────────────────────────────────────────
-
+// ── FAVORITOS ─────────────────────────────────
 export function renderizarFavoritos() {
   const contenedor  = document.getElementById("contenedor-favoritos");
   const estadoVacio = document.getElementById("estado-vacio");
-
   if (!contenedor) return;
 
-  // Usa persistence.js en lugar de localStorage directamente
   const favoritos = obtenerFavoritos();
 
   if (favoritos.length === 0) {
@@ -246,7 +241,12 @@ export function renderizarFavoritos() {
     </div>
   `).join("");
 
-  // Eliminar favorito individual
+  contenedor.querySelectorAll(".btn-detalle").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      window.location.href = `detalles.html?id=${e.target.dataset.id}`;
+    });
+  });
+
   contenedor.querySelectorAll(".btn-eliminar-fav").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       eliminarFavorito(parseInt(e.target.dataset.id));
@@ -254,30 +254,48 @@ export function renderizarFavoritos() {
     });
   });
 
-  // Limpiar todos los favoritos
   const btnLimpiar = document.getElementById("btn-limpiar");
   if (btnLimpiar) {
-    btnLimpiar.addEventListener("click", () => {
-      limpiarFavoritos();
-      renderizarFavoritos();
-    });
+    btnLimpiar.replaceWith(btnLimpiar.cloneNode(true));
+    const btnNuevo = document.getElementById("btn-limpiar");
+    if (btnNuevo) {
+      btnNuevo.addEventListener("click", () => {
+        limpiarFavoritos();
+        renderizarFavoritos();
+      });
+    }
   }
 }
+
 export function iniciarPaginaFavoritos() {
   renderizarFavoritos();
 }
-export function configurarFiltros() {
-  document.querySelectorAll(".pill").forEach((btn) => {
+
+// ── FILTROS ─────────────────────────────────
+// El parámetro `callbackRender` permite usar esta función en detalles.html
+// con un renderizador diferente. Si no se pasa, usa renderizarTarjetas.
+export function configurarFiltros(callbackRender = null) {
+  document.querySelectorAll(".pill[data-genero]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".pill[data-genero]").forEach((p) => p.classList.remove("active"));
       btn.classList.add("active");
+
       const genero = btn.dataset.genero;
-      state.showsFiltrados = genero === "todos"
-        ? state.todosLosShows
-        : state.todosLosShows.filter(s => s.genres?.includes(genero));
+      state.showsFiltrados =
+        genero === "todos"
+          ? state.todosLosShows
+          : state.todosLosShows.filter((s) => s.genres?.includes(genero));
+
       state.paginaActual = 0;
-      renderizarTarjetas(paginarShows());
-      renderizarPaginacion();
+
+      if (callbackRender) {
+        // En detalles.html: renderiza en contenedor-resultados
+        callbackRender(state.showsFiltrados);
+      } else {
+        // En index.html: renderiza con paginación
+        renderizarTarjetas(paginarShows());
+        renderizarPaginacion();
+      }
     });
   });
 }
