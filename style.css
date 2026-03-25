@@ -263,7 +263,7 @@ nav {
   align-items: center;
 }
 .nav-logo img {
-  height: 36px;
+  height: 100px;
   width: auto;
   object-fit: contain;
 }
@@ -586,8 +586,8 @@ main {
   cursor: pointer;
   transition: var(--transicion);
   background: var(--bg-elevated);
-  color: var(--gris);
-  border: 1px solid var(--borde);
+  color: #fc651f;
+  border: 1px solid #fc651f;
 }
 
 .btn-secundario:hover {
