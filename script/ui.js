@@ -266,3 +266,18 @@ export function renderizarFavoritos() {
 export function iniciarPaginaFavoritos() {
   renderizarFavoritos();
 }
+export function configurarFiltros() {
+  document.querySelectorAll(".pill").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      const genero = btn.dataset.genero;
+      state.showsFiltrados = genero === "todos"
+        ? state.todosLosShows
+        : state.todosLosShows.filter(s => s.genres?.includes(genero));
+      state.paginaActual = 0;
+      renderizarTarjetas(paginarShows());
+      renderizarPaginacion();
+    });
+  });
+}
