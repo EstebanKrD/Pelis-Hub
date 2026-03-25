@@ -2,7 +2,7 @@ import { state } from "./state.js";
 import { renderizarTarjetas, renderizarPaginacion, paginarShows } from "./ui.js";
 
 export function configurarBuscador() {
-  const input = document.getElementById("input-busqueda");
+const input = document.getElementById("input-buscar");
 
   if (!input) return;
 

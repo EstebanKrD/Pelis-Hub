@@ -5,7 +5,7 @@ import {
   esFavorito,
   obtenerFavoritos,
   limpiarFavoritos,
-} from "./persistence.js";
+} from "./persistance.js";
 
 export function iniciarUI() {
   iniciarIntro();
