@@ -519,13 +519,9 @@ main {
   gap: 0.3rem;
 }
 .card-titulo {
-  font-family: var(--fuente-titulo);
-  font-size: 0.98rem;
-  letter-spacing: 0.03em;
-  color: var(--blanco);
-  line-height: 1.2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2; 
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
