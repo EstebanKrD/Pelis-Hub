@@ -17,72 +17,74 @@
           <a href="favorito.html">Favoritos</a>
         </div>
         <button class="nav-toggle" id="nav-toggle" aria-label="Menú">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span>
         </button>
       </nav>
     </header>
 
     <main>
       <div class="container">
-        <div class="page-header">
-          <h1>Búsqueda y <span>Filtro</span></h1>
-          <p>Busca series por nombre o filtra por categoría.</p>
+
+        <!-- ── VISTA DETALLE (se muestra cuando hay ?id=) ── -->
+        <div id="seccion-detalle" style="display:none">
+          <div id="detalle-contenido"></div>
         </div>
 
-        <div class="search-wrapper">
-          <div class="search-box">
-            <input
-              type="text"
-              id="input-buscar"
-              placeholder="Buscar serie o película"
-            />
-            <span class="icono-buscar" id="icono-buscar">&#128269;</span>
+        <!-- ── VISTA FILTROS (se muestra sin ?id) ── -->
+        <div id="seccion-filtros">
+          <div class="page-header">
+            <h1>Búsqueda y <span>Filtro</span></h1>
+            <p>Busca series por nombre o filtra por categoría.</p>
           </div>
-          <button class="btn-primario" id="btn-buscar">Buscar</button>
+
+          <div class="search-wrapper">
+            <div class="search-box">
+              <input type="text" id="input-buscar" placeholder="Buscar serie o película" />
+              <span class="icono-buscar" id="icono-buscar">&#128269;</span>
+            </div>
+            <button class="btn-primario" id="btn-buscar">Buscar</button>
+          </div>
+
+          <div class="seccion-header">
+            <h2>Búsqueda <span>Reciente</span></h2>
+            <button class="btn btn-secundario btn-sm" id="btn-limpiar-historial">Limpiar</button>
+          </div>
+
+          <div class="Historial-lista" id="Historial-lista"></div>
+
+          <div class="estado-vacio" id="estado-historial-vacio">
+            <div class="icono">&#128269;</div>
+            <h3>Sin Búsquedas</h3>
+            <p>Aún no has realizado ninguna búsqueda.</p>
+          </div>
+
+          <div class="filtros" id="filtros">
+            <h2>Filtrar por <span>Géneros</span></h2>
+            <button class="pill active" data-genero="todos">Todos</button>
+            <button class="pill" data-genero="Drama">Drama</button>
+            <button class="pill" data-genero="Comedy">Comedia</button>
+            <button class="pill" data-genero="Action">Acción</button>
+            <button class="pill" data-genero="Crime">Crimen</button>
+            <button class="pill" data-genero="Thriller">Suspenso</button>
+            <button class="pill" data-genero="Sci-Fi">Ciencia Ficción</button>
+            <button class="pill" data-genero="Horror">Terror</button>
+            <button class="pill" data-genero="Romance">Romance</button>
+            <button class="pill" data-genero="Fantasy">Fantasía</button>
+          </div>
+
+          <div class="seccion-header">
+            <h2>Resultados</h2>
+          </div>
+
+          <div class="cards-grids" id="contenedor-resultados"></div>
+
+          <div class="estado-vacio" id="estado-resultado-vacio">
+            <div class="icono">&#127916;</div>
+            <h3>Sin Resultados</h3>
+            <p>No se encontraron series. Intenta otra búsqueda.</p>
+          </div>
         </div>
 
-        <div class="seccion-header">
-          <h2>Búsqueda <span>Reciente</span></h2>
-          <button class="btn btn-secundario btn-sm" id="btn-limpiar-historial">
-            Limpiar
-          </button>
-        </div>
-
-        <div class="Historial-lista" id="Historial-lista"></div>
-
-        <div class="estado-vacio" id="estado-historial-vacio">
-          <div class="icono">&#128269;</div>
-          <h3>Sin Búsquedas</h3>
-          <p>Aún no has realizado ninguna búsqueda.</p>
-        </div>
-
-        <div class="filtros" id="filtros">
-          <h2>Filtrar por <span>Géneros</span></h2>
-          <button class="pill active" data-genero="todos">Todos</button>
-          <button class="pill" data-genero="Drama">Drama</button>
-          <button class="pill" data-genero="Comedy">Comedia</button>
-          <button class="pill" data-genero="Action">Acción</button>
-          <button class="pill" data-genero="Crime">Crimen</button>
-          <button class="pill" data-genero="Thriller">Suspenso</button>
-          <button class="pill" data-genero="Sci-Fi">Ciencia Ficción</button>
-          <button class="pill" data-genero="Horror">Terror</button>
-          <button class="pill" data-genero="Romance">Romance</button>
-          <button class="pill" data-genero="Fantasy">Fantasía</button>
-        </div>
-
-        <div class="seccion-header">
-          <h2>Resultados</h2>
-        </div>
-
-        <div class="cards-grids" id="contenedor-resultados"></div>
-
-        <div class="estado-vacio" id="estado-resultado-vacio">
-          <div class="icono">&#127916;</div>
-          <h3>Sin Resultados</h3>
-          <p>No se encontraron series. Intenta otra búsqueda.</p>
-        </div>
       </div>
     </main>
 
