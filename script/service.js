@@ -2,7 +2,7 @@ import { state } from "./state.js";
 import { renderizarTarjetas, renderizarPaginacion, paginarShows } from "./ui.js";
 
 export function configurarBuscador() {
-const input = document.getElementById("input-buscar");
+  const input = document.getElementById("input-busqueda");
 
   if (!input) return;
 
@@ -24,4 +24,8 @@ const input = document.getElementById("input-buscar");
     renderizarTarjetas(paginarShows());
     renderizarPaginacion();
   });
+}
+export async function obtenerShows(pagina = 0) {
+  const res = await fetch(`https://api.tvmaze.com/shows?page=${pagina}`);
+  return await res.json();
 }
