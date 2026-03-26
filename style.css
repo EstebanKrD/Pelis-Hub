@@ -924,4 +924,168 @@ Es el estilo de la barra de desplazamiento del navegador, esa barrита que apa
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
   }
+  .btn-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  padding: 0.45rem 1rem;
+  font-family: var(--fuente-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gris);
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: var(--transicion);
+}
+.btn-volver:hover {
+  border-color: var(--naranja);
+  color: var(--naranja);
+}
+
+/* Hero del detalle */
+.detalle-hero {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.detalle-imagen-wrap {
+  flex-shrink: 0;
+}
+.detalle-imagen-wrap img {
+  width: 220px;
+  border-radius: var(--radio-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  display: block;
+}
+.detalle-imagen-wrap .sin-imagen {
+  width: 220px;
+  aspect-ratio: 2/3;
+  background: var(--bg-elevated);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--gris-suave);
+}
+
+.detalle-info {
+  flex: 1;
+  min-width: 260px;
+}
+
+.detalle-nombre {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.04em;
+  color: var(--blanco);
+  margin-bottom: 0.75rem;
+}
+
+/* Géneros */
+.detalle-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+/* Meta info */
+.detalle-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.meta-item {
+  background: var(--bg-elevated);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-md);
+  padding: 0.75rem 1rem;
+}
+.meta-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris);
+  margin-bottom: 4px;
+}
+.meta-valor {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--blanco);
+}
+
+/* Estado con color */
+.estado-running        { color: #4ade80; }
+.estado-ended          { color: #f87171; }
+.estado-in-development { color: #fbbf24; }
+.estado-to-be-determined { color: var(--gris); }
+
+/* Botón favorito en detalle */
+.btn-fav-detalle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.55rem 1.25rem;
+  border-radius: var(--radio-sm);
+  font-family: var(--fuente-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--naranja);
+  background: transparent;
+  color: var(--naranja);
+  transition: var(--transicion);
+}
+.btn-fav-detalle:hover {
+  background: var(--naranja-dim);
+}
+.btn-fav-activo {
+  background: var(--naranja) !important;
+  color: var(--blanco) !important;
+}
+.btn-fav-activo:hover {
+  background: #e8571a !important;
+}
+
+/* Resumen */
+.detalle-resumen {
+  background: var(--bg-card);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-md);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 3rem;
+}
+.detalle-resumen h2 {
+  font-family: var(--fuente-titulo);
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: var(--naranja);
+  margin-bottom: 0.75rem;
+}
+.detalle-resumen-texto {
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.92rem;
+}
+.detalle-resumen-texto p { margin: 0; }
+
+/* Responsive detalle */
+@media (max-width: 600px) {
+  .detalle-hero       { flex-direction: column; align-items: center; text-align: center; }
+  .detalle-imagen-wrap img { width: 160px; }
+  .detalle-imagen-wrap .sin-imagen { width: 160px; }
+  .detalle-badges     { justify-content: center; }
+  .detalle-meta       { grid-template-columns: 1fr 1fr; }
+}
 }
