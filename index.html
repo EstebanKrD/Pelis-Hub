@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PELISHUB</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="intro">
+      <div class="intro-glow">
+        <img class="intro-logo" src="Logo.png" alt="PelisHub" />
+        <p class="intro-eslogan">
+          Tu plataforma de series, películas y programas de TV favorita 😉
+        </p>
+        <div class="intro-barra-carga">
+          <div class="intro-barra"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pagina-principal">
+      <header>
+        <nav>
+          <a href="index.html" class="nav-logo">
+            <img src="Logo.png" alt="PelisHub" />
+          </a>
+          <div class="nav-links" id="nav-links">
+            <a href="index.html" class="active">Inicio</a>
+            <a href="detalles.html">Filtros</a>
+            <a href="favorito.html">Favoritos</a>
+          </div>
+          <button class="nav-toggle" id="nav-toggle" aria-label="Menú">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </nav>
+      </header>
+
+      <main>
+        <div class="container">
+          <div class="page-header">
+            <h1>Explorar <span>Series</span> y Películas</h1>
+            <p>
+              Encuentra en nuestro sitio tus series, películas y series de TV
+              favoritas con TVMaze
+            </p>
+          </div>
+
+          <div class="search-wrapper">
+            <div class="search-box">
+              <input
+                type="text"
+                id="input-buscar"
+                placeholder="Buscar serie o película"
+              />
+            </div>
+            <button class="btn-primario" id="btn-buscar">Buscar</button>
+          </div>
+
+          <div class="filtros" id="filtros">
+            <span class="filtros-label">Géneros:</span>
+            <button class="pill active" data-genero="todos">Todos</button>
+            <button class="pill" data-genero="Drama">Drama</button>
+            <button class="pill" data-genero="Comedy">Comedia</button>
+            <button class="pill" data-genero="Action">Acción</button>
+            <button class="pill" data-genero="Crime">Crimen</button>
+            <button class="pill" data-genero="Thriller">Suspenso</button>
+            <button class="pill" data-genero="Sci-Fi">Ciencia Ficción</button>
+            <button class="pill" data-genero="Horror">Terror</button>
+            <button class="pill" data-genero="Romance">Romance</button>
+            <button class="pill" data-genero="Fantasy">Fantasía</button>
+            <button class="pill" data-genero="Adventure">Aventura</button>
+            <button class="pill" data-genero="Mystery">Misterio</button>
+            <button class="pill" data-genero="History">Historia</button>
+            <button class="pill" data-genero="Music">Música</button>
+            <button class="pill" data-genero="Family">Familia</button>
+            <button class="pill" data-genero="Medical">Médico</button>
+            <button class="pill" data-genero="Legal">Legal</button>
+            <button class="pill" data-genero="Science">Ciencia</button>
+            <button class="pill" data-genero="War">Guerra</button>
+            <button class="pill" data-genero="Anime">Anime</button>
+          </div>
+
+          <div class="seccion-header">
+            <h2>Series <span>Populares</span></h2>
+            <div class="selector-pagina">
+              <span>Mostrar</span>
+              <select id="items-por-pagina">
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+              </select>
+              <span>por página</span>
+            </div>
+          </div>
+
+          <div class="cards-grids" id="contenedor-cards"></div>
+
+          <div class="paginacion" id="paginacion">
+            <span class="paginacion-info" id="info-pagina">Página 1 de 1</span>
+
+            <div class="paginacion-btns" id="btns-pagina">
+              <button class="btn-pagina" id="btn-anterior">
+                &#8592; Anterior
+              </button>
+              <button class="btn-pagina active">1</button>
+              <button class="btn-pagina" id="btn-siguiente">
+                Siguiente &#8594;
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>
+          © 2026 <span>PelisHub</span> · Datos proporcionados por TVMaze API
+        </p>
+      </footer>
+    </div>
+    <script type="module" src="script/main.js"></script>
+  </body>
+</html>
